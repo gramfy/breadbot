@@ -29,7 +29,7 @@ class EmbedHelp():
     field2name="🎉Fun"
     field2value=f"`{BotStuff.bot_prefix}8ball, {BotStuff.bot_prefix}memes, {BotStuff.bot_prefix}reddit`"
     field3name="🔨Moderation (Later)"
-    field3value=f""
+    field3value=f"\u200b"
     
     noprefixchange="Prefix change are soon supported!"
     botversion="1.0.1"

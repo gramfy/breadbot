@@ -1,28 +1,23 @@
 
 """
-Time to take a break fr.
-Time: 3 days no rest
-progress: full working (with several bugs not found prolly)
-this took me so long, this file in total of almost 200 (207 with 8kb in size)values.py with 2kb (67 lines) commonfunction.py 1kb with 43 lines
+main commands
 """
 
 #https://stackoverflow.com/questions/66662756/is-it-possible-to-split-a-discord-py-bot-across-multiple-files
 #main entry files for the entire bot
 import discord
+import os
 from discord.ext import commands
 import sys
-#replit
-#sys.path.append("/home/runner/Stuffbhailegit")
-#termux
-sys.path.append("/data/data/com.termux/files/home/breadbot_major_little_rewrite")
+WORKING_DIR_ROOT=os.getcwd()
+WORKING_DIR_COMMONLIB=os.getcwd()+"/commonlib"
+sys.path.append(WORKING_DIR_ROOT)
 import main
 import logging as log
 import typing
 
-#replit
-#sys.path.append("/home/runner/Stuffbhailegit/commonlib")
-#termux
-sys.path.append("/data/data/com.termux/files/home/breadbot_major_little_rewrite/commonlib")
+sys.path.append(WORKING_DIR_COMMONLIB)
+print(WORKING_DIR_COMMONLIB)
 import values
 from discord import Color as color
 import random
@@ -30,21 +25,13 @@ import commonfunction as lib
 
 logger = log.getLogger(__name__)
 #todo: move embeds setup to values.py
-embedhelp = discord.Embed(title=values.EmbedHelp.title,
-                          description=values.EmbedHelp.description,
-                          color=color.red())
-embedhelp.add_field(name=values.EmbedHelp.field1name,
-                    value=values.EmbedHelp.field1value,
-                    inline=True)
-embedhelp.add_field(name=values.EmbedHelp.field2name,
-                    value=values.EmbedHelp.field2value,
-                    inline=True)
-embedhelp.add_field(name=values.EmbedHelp.field3name,
-                    value=values.EmbedHelp.field3value,
-                    inline=True)
+
+embedhelp=discord.Embed(title=values.EmbedHelp.title, description=values.EmbedHelp.description, color=color.red())
+embedhelp.add_field(name=values.EmbedHelp.field1name,value=values.EmbedHelp.field1value,inline=True)
+embedhelp.add_field(name=values.EmbedHelp.field2name,value=values.EmbedHelp.field2value,inline=True)
+embedhelp.add_field(name=values.EmbedHelp.field3name,value=values.EmbedHelp.field3value,inline=True)
 embedhelp.set_footer(
     text=f"{values.EmbedHelp.noprefixchange} | v{values.EmbedHelp.botversion}")
-#embedhelp.add_field(name=values.EmbedHelp.noprefixchange, value="", inline=False)
 
 
 class cmd(commands.Cog):
