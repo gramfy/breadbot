@@ -7,7 +7,7 @@ import keep_alive as web_data
 
 log=pylog.getLogger(__name__)
 pylog.basicConfig(level=pylog.INFO) #for discord logging
-token = "OTM4NTk4NTIxMDcyOTM5MDg5.G5n_MD.8epCf8IJV2swaYNBIG7y8_7vbUxLgRDZFgv3-I"
+token = ""
 client  = commands.Bot(command_prefix=commands.when_mentioned_or("^"), help=None)
 client.remove_command("help")
 presence = "breadism"
