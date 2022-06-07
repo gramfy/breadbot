@@ -12,14 +12,7 @@ class value(commands.Cog):
 
 class BotStuff():
     command_list=["ping", "setactivity", "usage", "8ball", "memes", "subreddit","help","kick", "prefix"]
-    global basicfile
     bot_prefix="^"
-    def reopenf():
-         basicfile=open("/data/data/com.termux/files/home/breadbot_major_little_rewrite/commonlib/prefix.txt","r")
-         prefix=basicfile.read()
-         basicfile.close()
-         print("prefix: "+prefix)
-   
 
 class EmbedHelp():
     title="Help"
@@ -30,6 +23,8 @@ class EmbedHelp():
     field2value=f"`{BotStuff.bot_prefix}8ball, {BotStuff.bot_prefix}memes, {BotStuff.bot_prefix}reddit`"
     field3name="🔨Moderation (Later)"
     field3value=f"\u200b"
+    field4name="🎧Music"
+    field4value="`^join, ^leave`"
     
     noprefixchange="Prefix change are soon supported!"
     botversion="1.0.1"

@@ -9,6 +9,7 @@ import discord
 import os
 from discord.ext import commands
 import sys
+import youtube_dl as ytdl
 WORKING_DIR_ROOT=os.getcwd()
 WORKING_DIR_COMMONLIB=os.getcwd()+"/commonlib"
 sys.path.append(WORKING_DIR_ROOT)
@@ -30,6 +31,7 @@ embedhelp=discord.Embed(title=values.EmbedHelp.title, description=values.EmbedHe
 embedhelp.add_field(name=values.EmbedHelp.field1name,value=values.EmbedHelp.field1value,inline=True)
 embedhelp.add_field(name=values.EmbedHelp.field2name,value=values.EmbedHelp.field2value,inline=True)
 embedhelp.add_field(name=values.EmbedHelp.field3name,value=values.EmbedHelp.field3value,inline=True)
+embedhelp.add_field(name=values.EmbedHelp.field4name,value=values.EmbedHelp.field4value,inline=True)
 embedhelp.set_footer(
     text=f"{values.EmbedHelp.noprefixchange} | v{values.EmbedHelp.botversion}")
 
@@ -217,6 +219,41 @@ async def unban(ctx, member, reason=None):
             await ctx.guild.unban(user)
             await ctx.send(embed=embed)
 
+@commands.command()
+async def join(ctx):
+   authorvoice = ctx.author.voice
+   if authorvoice is None:
+        await ctx.send(":x: You are not in a voice channel.")
+   
+   if ctx.voice_client is None:
+       await authorvoice.channel.connect()
+   else:
+       await ctx.send("Already in a voice channel! use `^leave` to leave.")
+
+@commands.command()
+async def leave(ctx):
+   authorvoice = ctx.author.voice
+   if ctx.voice_client is not None:
+       await ctx.voice_client.disconnect()
+   else:
+       await ctx.send("I'm not in a voice channel!")
+
+@commands.command()
+async def play(ctx, url):
+    if ctx.voice_client is None:
+        await ctx.send("I'm not in a voice channel! Please use `^join` so I can join a voice channel.")
+    else:
+        FFMPEG_OPTIONS={"before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
+        "options": "-vn"}
+        YDL_OPTIONS={"format":"bestaudio"}
+        with ytdl.YoutubeDL(YDL_OPTIONS) as ydl:
+            info = ydl.extract_info(url, download=False)
+            url2 = info["formats"][0]["url"]
+            source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS)
+            ctx.voice_client.play(source)
+
+
+
 def setup(client):
     client.add_command(ping)
     client.add_command(help)
@@ -228,4 +265,7 @@ def setup(client):
     client.add_command(kick)
     client.add_command(prefix)
     client.add_command(unban)
+    client.add_command(join)
+    client.add_command(leave)
+    client.add_command(play)
     client.add_cog(cmd(client))
